@@ -1,6 +1,6 @@
-import { QuarkMethod } from "../quarks.ts";
+import type { QuarkMethod } from "../quarks.ts";
 
-export const StockMemoryMethods = {
+export const StockMemoryMethods: Record<string, QuarkMethod> = {
   "set": {
     documentation: {
       summary: "Writes a value to a variable",
@@ -75,4 +75,4 @@ export const StockMemoryMethods = {
       ctx.writeVar(varname, ctx.heap[address as number]);
     },
   },
-} satisfies Record<string, QuarkMethod>;
+};

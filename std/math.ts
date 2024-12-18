@@ -1,4 +1,4 @@
-import { QuarkMethod } from "../quarks.ts";
+import type { QuarkMethod } from "../quarks.ts";
 
 function generateOperationDocumentation(
   verb: string,
@@ -49,7 +49,7 @@ function generateComparisionDocumentation(
   };
 }
 
-export const StockMathMethods = {
+export const StockMathMethods: Record<string, QuarkMethod> = {
   "add": {
     documentation: generateOperationDocumentation("Adds", "addition"),
     handler: (ctx, [lhs, rhs, varname]) => {

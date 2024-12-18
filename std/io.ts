@@ -1,6 +1,6 @@
-import { QuarkMethod } from "../quarks.ts";
+import type { QuarkMethod } from "../quarks.ts";
 
-export const StockIOMethods = {
+export const StockIOMethods: Record<string, QuarkMethod> = {
   "print": {
     documentation: {
       summary: "Prints it's inputs. Execute `flush` to write to output",
@@ -31,4 +31,4 @@ export const StockIOMethods = {
       console.log(ctx);
     },
   },
-} satisfies Record<string, QuarkMethod>;
+}

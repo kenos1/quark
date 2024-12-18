@@ -2,7 +2,7 @@ import {
   ConversionType,
   JSFunctionToQuarkMethod,
   Quark,
-  QuarkMethod,
+  type QuarkMethod,
   StockMethods,
 } from "./quarks.ts";
 

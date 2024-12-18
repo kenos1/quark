@@ -35,6 +35,16 @@ const ctx = new Quark({
       );
     },
   },
+  exit: {
+    documentation: {
+      summary: "Exits the cli",
+      args: []
+    },
+    handler: () => {
+      console.log("Goodbye!")
+      shouldStillRun = false;
+    }
+  }
 });
 
 while (shouldStillRun) {

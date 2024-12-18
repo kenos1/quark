@@ -15,7 +15,7 @@ export enum ConversionType {
   Value,
 }
 
-export const StockMethods = {
+export const StockMethods: Record<string, QuarkMethod> = {
   ...StockMemoryMethods,
   ...StockMathMethods,
   ...StockIOMethods,
@@ -37,7 +37,7 @@ export const StockMethods = {
       }
     },
   },
-} satisfies Record<string, QuarkMethod>;
+};
 
 const parserRegexes = {
   lines: /\n/gm,
@@ -120,7 +120,7 @@ export class Quark {
     };
   }
 
-  execute(code: string) {
+  execute(code: string): void {
     const parsed = this.parse(code);
 
     if (parsed.errors.length > 0) throw new Error(parsed.errors.join("\n"));
@@ -144,14 +144,14 @@ export class Quark {
       : value;
   }
 
-  writeVar(varName: unknown, value: unknown) {
+  writeVar(varName: unknown, value: unknown): void {
     if (!(varName instanceof VariableReference)) {
       throw new Error(`${varName} is not a valid variable name`);
     }
     this.vars.set(varName.variableName, this.getVal(value));
   }
 
-  generateDocstring(name: string, method: QuarkMethod) {
+  generateDocstring(name: string, method: QuarkMethod): string {
     return `${name} ${
       method.documentation.args.map((arg) => arg.name).join(" ")
     }\n\n${method.documentation.summary}\n\n${
