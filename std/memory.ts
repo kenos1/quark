@@ -29,7 +29,7 @@ export const StockMemoryMethods: Record<string, QuarkMethod> = {
       ],
     },
     handler: (ctx, [amount]) => {
-      ctx.heap.concat(Array(amount).fill(null));
+      ctx.heap = [...ctx.heap, Array(amount).fill(null)];
     },
   },
   "heapsize": {

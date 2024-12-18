@@ -47,6 +47,8 @@ const ctx = new Quark({
   }
 });
 
+console.log("Welcome to the quark cli! Run 'listmethods' to get a list of methods and 'doc \"<method name>\"' to get the documentation of that method.")
+
 while (shouldStillRun) {
   try {
     const code = prompt("quark>");
