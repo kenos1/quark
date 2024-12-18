@@ -38,21 +38,29 @@ const ctx = new Quark({
   exit: {
     documentation: {
       summary: "Exits the cli",
-      args: []
+      args: [],
     },
     handler: () => {
-      console.log("Goodbye!")
+      console.log("Goodbye!");
       shouldStillRun = false;
-    }
-  }
+    },
+  },
 });
 
-console.log("Welcome to the quark cli! Run 'listmethods' to get a list of methods and 'doc \"<method name>\"' to get the documentation of that method.")
+console.log(
+  "Welcome to the quark cli! Run 'listmethods' to get a list of methods and 'doc \"<method name>\"' to get the documentation of that method.",
+);
 
 while (shouldStillRun) {
   try {
     const code = prompt("quark>");
-    if (code) ctx.execute(code.replaceAll(";", "\n"));
+    if (code) {
+      ctx.execute(code.replaceAll(";", "\n"));
+      if (ctx.vars.get("result")) {
+        console.log(ctx.vars.get("result"));
+        ctx.vars.delete("result");
+      }
+    }
   } catch (e) {
     console.error(e);
   }
