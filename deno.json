@@ -1,0 +1,6 @@
+{
+  "exports": "./mod.ts",
+  "name": "@kenos/quark",
+  "license": "MIT",
+  "version": "0.1.0"
+}

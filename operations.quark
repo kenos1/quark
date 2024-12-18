@@ -1,0 +1,19 @@
+add 5 3 addition
+sub 10 7 subtraction
+mul 5 7 multiplication
+div 120 30 division
+sin 1.5 sine
+
+# dump
+
+print addition
+print " "
+print subtraction
+print " "
+print multiplication
+print " "
+print division
+print " "
+print sine
+
+flush
