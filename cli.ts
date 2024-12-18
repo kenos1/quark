@@ -47,21 +47,25 @@ const ctx = new Quark({
   },
 });
 
-console.log(
-  "Welcome to the quark cli! Run 'listmethods' to get a list of methods and 'doc \"<method name>\"' to get the documentation of that method.",
-);
-
-while (shouldStillRun) {
-  try {
-    const code = prompt("quark>");
-    if (code) {
-      ctx.execute(code.replaceAll(";", "\n"));
-      if (ctx.vars.get("result")) {
-        console.log(ctx.vars.get("result"));
-        ctx.vars.delete("result");
+if (Deno.args[0]) {
+  const file = Deno.readTextFileSync(Deno.args[0]);
+  ctx.execute(file);
+} else {
+  console.log(
+    "Welcome to the quark cli! Run 'listmethods' to get a list of methods and 'doc \"<method name>\"' to get the documentation of that method.",
+  );
+  while (shouldStillRun) {
+    try {
+      const code = prompt("quark>");
+      if (code) {
+        ctx.execute(code.replaceAll(";", "\n"));
+        if (ctx.vars.get("result")) {
+          console.log(ctx.vars.get("result"));
+          ctx.vars.delete("result");
+        }
       }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
   }
 }

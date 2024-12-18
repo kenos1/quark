@@ -2,6 +2,9 @@ import { StockIOMethods } from "./std/io.ts";
 import { StockMathMethods } from "./std/math.ts";
 import { StockMemoryMethods } from "./std/memory.ts";
 
+/**
+ * A method definition for the DSL
+ */
 export type QuarkMethod = {
   documentation: {
     summary: string;
@@ -10,11 +13,19 @@ export type QuarkMethod = {
   handler: (context: Quark, args: unknown[]) => void;
 };
 
+/**
+ * What type of function is the JS ported method
+ * Void means there's no return
+ * Value means that there's a return and that result must be written to a variable
+ */
 export enum ConversionType {
   Void,
   Value,
 }
 
+/**
+ * The standard methods. Optional.
+ */
 export const StockMethods: Record<string, QuarkMethod> = {
   ...StockMemoryMethods,
   ...StockMathMethods,
@@ -47,6 +58,9 @@ const parserRegexes = {
   variable: /[a-zA-Z]+/,
 };
 
+/**
+ * The quark class. Does parsing and is the context of a method.
+ */
 export class Quark {
   vars: Map<string, unknown> = new Map();
   heap: unknown[] = [];
@@ -55,6 +69,11 @@ export class Quark {
 
   constructor(public methods: Record<string, QuarkMethod> = StockMethods) {}
 
+  /**
+   * Parses quark code
+   * @param code The code to parse
+   * @returns The parsed lines and errors
+   */
   parse(code: string): {
     lines: (QuarkMethodCall | null)[];
     errors: string[];
@@ -120,6 +139,10 @@ export class Quark {
     };
   }
 
+  /**
+   * Executes quark code
+   * @param code The code to execute
+   */
   execute(code: string): void {
     const parsed = this.parse(code);
 
@@ -138,12 +161,22 @@ export class Quark {
     }
   }
 
+  /**
+   * Gets a value in the quark context
+   * @param value The value to get
+   * @returns The value in the quark context
+   */
   getVal(value: unknown): unknown {
     return value instanceof VariableReference
       ? this.vars.get(value.variableName)
       : value;
   }
 
+  /**
+   * Writes a value into a variable in the quark context
+   * @param varName The variable name
+   * @param value The value of the variable
+   */
   writeVar(varName: unknown, value: unknown): void {
     if (!(varName instanceof VariableReference)) {
       throw new Error(`${varName} is not a valid variable name`);
@@ -151,6 +184,12 @@ export class Quark {
     this.vars.set(varName.variableName, this.getVal(value));
   }
 
+  /**
+   * Generates a docstring of a method
+   * @param name The method name
+   * @param method The method definition
+   * @returns The generated docstring
+   */
   generateDocstring(name: string, method: QuarkMethod): string {
     return `${name} ${
       method.documentation.args.map((arg) => arg.name).join(" ")
@@ -164,6 +203,12 @@ export class Quark {
   }
 }
 
+/**
+ * Ports a JS function to be usable in quark
+ * @param func The JS function
+ * @param type The type of JS function
+ * @returns The result quark method
+ */
 export function JSFunctionToQuarkMethod(
   // deno-lint-ignore no-explicit-any
   func: (...args: any[]) => any,
